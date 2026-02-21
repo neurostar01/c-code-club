@@ -308,27 +308,53 @@
       border-color: rgba(255,255,255,0.10);
     }
   }
+/* 로고 스타일 */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-decoration:none;
+  color:inherit;
+}
 
+.brand-logo{
+  width:46px;
+  height:46px;
+  object-fit:contain;
+  border-radius:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  transition:transform 0.2s ease;
+}
+
+.brand-logo:hover{
+  transform:scale(1.05);
+}
     
   </style>
 </head>
 
 <body>
   <header>
-    <div class="nav">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div>
-          <div style="font-size:15px;">씨코드클럽</div>
-          <div style="font-size:12px; color:var(--muted2); font-weight:700;">C-Code Club</div>
+     <div class="nav">
+    <a href="#" class="brand">
+      <!-- 로고 이미지 -->
+      <img src="assets/ccclogo.png" alt="C-Code Club 로고" class="brand-logo">
+
+      <div>
+        <div style="font-size:15px;">씨코드클럽</div>
+        <div style="font-size:12px; color:var(--muted2); font-weight:700;">
+          C-Code Club
         </div>
       </div>
-      <nav class="navlinks" aria-label="메뉴">
-        <a href="#about">소개</a>
-        <a href="#content">콘텐츠</a>
-        <a href="#contact">문의</a>
-      </nav>
-    </div>
+    </a>
+
+    <nav class="navlinks" aria-label="메뉴">
+      <a href="#about">소개</a>
+      <a href="#members">멤버</a>
+      <a href="#content">콘텐츠</a>
+      <a href="#contact">문의</a>
+    </nav>
+  </div>
   </header>
 
   <main class="wrap">
@@ -529,5 +555,6 @@
   </script>
 </body>
 </html>
+
 
 
