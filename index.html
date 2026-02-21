@@ -62,7 +62,7 @@
   justify-content: space-between;
   gap: 14px;
 
-  padding: 10px 16px;          /* ✅ 낮은 높이 */
+  padding: 8px 16px;          /* ✅ 낮은 높이 */
   border-radius: 18px;
 
   background: rgba(10,20,40,0.72);
@@ -84,14 +84,12 @@
 
 /* ✅ 로고: 크게(2배 느낌) + 헤더 높이 유지 위해 위로 겹치기 */
 .brand-logo{
-  width: 140px;            /* (현재 78의 거의 2배 느낌) */
-  height: 140px;
+  width: 100px;            /* (현재 78의 거의 2배 느낌) */
+  height: 100px;
   object-fit: contain;
   border-radius: 18px;
   box-shadow: 0 14px 32px rgba(0,0,0,0.28);
 
-  /* 핵심: 아래로 헤더를 키우지 않게 위로 올려서 겹치기 */
-  margin-top: -48px;
 }
 
 /* 로고 hover 제거 */
@@ -128,7 +126,7 @@
 
 /* ✅ 헤더가 고정이므로 본문이 가려지지 않게 최소 여백만 */
 body{
-  padding-top: 92px;
+  padding-top: 90px;
 }
 
 /* 모바일: 로고는 여전히 크게, 너무 튀면 약간만 줄이기 */
@@ -362,7 +360,7 @@ body{
   <header>
   <div class="nav">
     <a href="#" class="brand" aria-label="씨코드클럽 홈">
-      <img src="assets/ccclogo.png" alt="씨코드클럽 로고" class="brand-logo">
+      <img src="assets/ccclogo_cr.png" alt="씨코드클럽 로고" class="brand-logo">
       <div class="brand-title">씨코드클럽</div>
     </a>
 
@@ -573,6 +571,7 @@ body{
   </script>
 </body>
 </html>
+
 
 
 
