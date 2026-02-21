@@ -41,8 +41,8 @@
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:28px 20px 72px}
     header{
-      position:sticky; top:0; z-index:50;
-      backdrop-filter: blur(14px);
+      position:fixed; top:0; left:0; right:0; width:100%; z-index:9999;
+      backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(14px);
       background: linear-gradient(180deg, rgba(11,16,32,0.85), rgba(11,16,32,0.35));
       border-bottom:1px solid rgba(255,255,255,0.06);
@@ -318,17 +318,14 @@
 }
 
 .brand-logo{
-  width:46px;
-  height:46px;
+  width:72px;
+  height:72px;
   object-fit:contain;
-  border-radius:10px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  border-radius:14px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.25);
   transition:transform 0.2s ease;
 }
 
-.brand-logo:hover{
-  transform:scale(1.05);
-}
     
   </style>
 </head>
@@ -555,6 +552,7 @@
   </script>
 </body>
 </html>
+
 
 
 
