@@ -40,73 +40,105 @@
     }
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:28px 20px 72px}
-    header{
-      position:fixed; top:10; left:0; right:0; width:100%; z-index:9999;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(11,16,32,0.85), rgba(11,16,32,0.35));
-      border-bottom:1px solid rgba(255,255,255,0.06);
-    }
-    .nav{
-      width: 92%;
-  max-width: 1100px;
+  header{
+  position: fixed;
+  top: 10px;           /* px 꼭 붙이기 */
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: transparent;
+
+  display: flex;
+  justify-content: center;
+}
+
+/* 카드형 네비 바 */
+.nav{
+  width: 92%;
+  max-width: var(--max);
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
 
-  padding: 6px 16px;       /* 패딩 최소화 */
-  padding-top: 90px;    
+  padding: 10px 16px;          /* ✅ 낮은 높이 */
   border-radius: 18px;
 
   background: rgba(10,20,40,0.72);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-    }
-    .brand-logo{
-  width: 78px;          /* 크게 */
-  height: 78px;
-  object-fit: contain;
-  border-radius: 16px;
-  box-shadow: 0 12px 28px rgba(0,0,0,0.28);
 }
 
-/* 텍스트 압축해서 높이 균형 맞춤 */
-.brand > div > div:first-child{
-  font-size: 14px !important;
-  line-height: 1.0;
+/* 브랜드 영역 */
+.brand{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
 }
-.brand > div > div:last-child{
-  font-size: 11px !important;
-  line-height: 1.0;
+
+/* ✅ 로고: 크게(2배 느낌) + 헤더 높이 유지 위해 위로 겹치기 */
+.brand-logo{
+  width: 140px;            /* (현재 78의 거의 2배 느낌) */
+  height: 140px;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.28);
+
+  /* 핵심: 아래로 헤더를 키우지 않게 위로 올려서 겹치기 */
+  margin-top: -48px;
 }
-    .navlinks{
-      display:flex; gap:14px; align-items:center;
-      color:var(--muted);
-      font-weight:600;
-    }
-    .navlinks a{
+
+/* 로고 hover 제거 */
+.brand-logo:hover{ transform:none; }
+
+.brand-title{
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: -0.2px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* 메뉴 링크 (기존 스타일 유지하면서 높이만 낮게) */
+.navlinks{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.navlinks a{
   font-size: 13px;
-  padding: 5px 9px;
+  padding: 6px 10px;
   border-radius: 12px;
   font-weight: 700;
 }
-    .navlinks a:hover{
-      background: rgba(255,255,255,0.06);
-      color:var(--txt);
-    }
 
-    .hero{
-      padding:44px 0 18px;
-      display:grid;
-      grid-template-columns: 1.3fr 1fr;
-      gap:22px;
-      align-items:stretch;
-    }
-    @media (max-width: 640px){
-  .brand-logo{ width: 60px; height: 60px; }
-  body{ padding-top: 80px; }
+.navlinks a:hover{
+  background: rgba(255,255,255,0.06);
+  color: var(--txt);
+}
+
+/* ✅ 헤더가 고정이므로 본문이 가려지지 않게 최소 여백만 */
+body{
+  padding-top: 92px;
+}
+
+/* 모바일: 로고는 여전히 크게, 너무 튀면 약간만 줄이기 */
+@media (max-width: 640px){
+  .brand-logo{
+    width: 110px;
+    height: 110px;
+    margin-top: -34px;
+  }
+  body{ padding-top: 86px; }
 }
 
     .hcard{
@@ -328,17 +360,10 @@
 
 <body>
   <header>
-     <div class="nav">
-    <a href="#" class="brand">
-      <!-- 로고 이미지 -->
-      <img src="assets/ccclogo.png" alt="C-Code Club 로고" class="brand-logo">
-
-      <div>
-        <div style="font-size:15px;">씨코드클럽</div>
-        <div style="font-size:12px; color:var(--muted2); font-weight:700;">
-          C-Code Club
-        </div>
-      </div>
+  <div class="nav">
+    <a href="#" class="brand" aria-label="씨코드클럽 홈">
+      <img src="assets/ccclogo.png" alt="씨코드클럽 로고" class="brand-logo">
+      <div class="brand-title">씨코드클럽</div>
     </a>
 
     <nav class="navlinks" aria-label="메뉴">
@@ -348,8 +373,8 @@
       <a href="#contact">문의</a>
     </nav>
   </div>
-  </header>
-
+</header>
+  
   <main class="wrap">
     <div class="hero">
       <div class="hcard">
@@ -548,6 +573,7 @@
   </script>
 </body>
 </html>
+
 
 
 
