@@ -245,6 +245,66 @@
       font-weight:700;
     }
     .hidden{display:none}
+/* ===== Members Section (C-Code Club) ===== */
+  .members-wrap{ margin-top:60px; }
+  .members-head{ text-align:center; margin-bottom:32px; }
+  .members-head h2{ font-size:28px; margin:0; }
+  .members-head p{ color:#bbb; max-width:680px; margin:10px auto 0; line-height:1.6; }
+
+  .members-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:22px;
+  }
+
+  .member-card{
+    background: linear-gradient(180deg, rgba(20,27,51,0.95), rgba(20,27,51,0.78));
+    border:1px solid rgba(255,255,255,0.10);
+    border-radius:20px;
+    padding:22px;
+    text-align:center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    will-change: transform;
+  }
+
+  /* Option 1: Professional Lift Hover */
+  .member-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 18px 55px rgba(0,0,0,0.38);
+    border-color: rgba(78,216,199,0.55);
+  }
+
+  .avatar{
+    width:120px; height:120px;
+    border-radius:50%;
+    margin: 0 auto 14px;
+    overflow:hidden;
+    border:3px solid rgba(78,216,199,0.25);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+    background: rgba(255,255,255,0.06);
+  }
+  .avatar img{
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .member-name{ margin:10px 0 6px; font-size:18px; }
+  .member-quote{ color:#4ED8C7; font-weight:800; margin:8px 0 8px; }
+  .member-role{ color:#bbb; font-size:14px; margin:0; }
+  .member-desc{ margin-top:10px; font-size:14px; color:#ddd; line-height:1.6; }
+
+  /* Touch devices: prevent weird hover behavior */
+  @media (hover: none) {
+    .member-card:hover{
+      transform:none;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      border-color: rgba(255,255,255,0.10);
+    }
+  }
+
+    
   </style>
 </head>
 
@@ -330,6 +390,57 @@
       <div class="hr"></div>
     </section>
 
+<section id="members" class="members-wrap">
+  <div class="members-head">
+    <h2>씨코드클럽 멤버</h2>
+    <p>
+      의사이자 환자였던 세 명의 신경외과 의사. 전문성과 경험을 바탕으로
+      진솔하고 유익한 정보를 전합니다.
+    </p>
+  </div>
+
+  <div class="members-grid">
+    <!-- Member 1 -->
+    <div class="member-card">
+      <div class="avatar">
+        <img src="assets/youngil1.png" alt="김영일 프로필">
+      </div>
+      <h3 class="member-name">김영일</h3>
+      <p class="member-quote">“수술도 받아봤고, 항암도 해봤습니다.”</p>
+      <p class="member-role">신경외과 전문의</p>
+      <p class="member-desc">
+        환자의 불안을 줄이는 ‘이해되는 설명’을 가장 중요하게 생각합니다.
+      </p>
+    </div>
+
+    <!-- Member 2 -->
+    <div class="member-card">
+      <div class="avatar">
+        <img src="assets/kyungsu1.png" alt="성경수 프로필">
+      </div>
+      <h3 class="member-name">성경수</h3>
+      <p class="member-quote">“교과서와 현실의 차이를 압니다.”</p>
+      <p class="member-role">신경외과 전문의</p>
+      <p class="member-desc">
+        검사·치료 선택의 무게를 함께 정리하고, 현실적인 기준을 제시합니다.
+      </p>
+    </div>
+
+    <!-- Member 3 -->
+    <div class="member-card">
+      <div class="avatar">
+        <img src="assets/kyunghwan1.png" alt="김경환 프로필">
+      </div>
+      <h3 class="member-name">김경환</h3>
+      <p class="member-quote">“아프기 전과 후의 의사는 다릅니다.”</p>
+      <p class="member-role">신경외과 전문의</p>
+      <p class="member-desc">
+        전문성과 공감을 함께 담아, 부담 없이 볼 수 있는 의학 이야기를 만듭니다.
+      </p>
+    </div>
+  </div>
+</section>
+    
     <section id="content">
       <div class="section-title">콘텐츠(예정)</div>
       <div class="grid">
@@ -413,3 +524,4 @@
   </script>
 </body>
 </html>
+
