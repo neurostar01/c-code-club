@@ -275,20 +275,25 @@
     border-color: rgba(78,216,199,0.55);
   }
 
-  .avatar{
-    width:120px; height:120px;
-    border-radius:50%;
-    margin: 0 auto 14px;
-    overflow:hidden;
-    border:3px solid rgba(78,216,199,0.25);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.20);
-    background: rgba(255,255,255,0.06);
-  }
-  .avatar img{
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-  }
+ .avatar{
+  width:180px;          /* 기존 120 → 180 */
+  height:180px;         /* 기존 120 → 180 */
+  border-radius:50%;
+  margin: 0 auto 18px;
+  overflow:hidden;
+  border:3px solid rgba(78,216,199,0.35);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  background: #ffffff;  /* 배경 흰색 (캐릭터가 더 또렷) */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.avatar img{
+  width:90%;            /* 살짝 여백 주기 */
+  height:90%;
+  object-fit:contain;   /* cover → contain 으로 변경 */
+}
 
   .member-name{ margin:10px 0 6px; font-size:18px; }
   .member-quote{ color:#4ED8C7; font-weight:800; margin:8px 0 8px; }
@@ -524,4 +529,5 @@
   </script>
 </body>
 </html>
+
 
