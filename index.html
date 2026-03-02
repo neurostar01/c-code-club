@@ -4,577 +4,1045 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="씨코드클럽 — 암을 겪은 세 명의 신경외과 의사. 환자와 의료진의 시선이 만나는 기록." />
-  <meta property="og:title" content="씨코드클럽" />
-  <meta property="og:description" content="암을 겪은 세 명의 신경외과 의사로 이루어진 클럽" />
-  <meta property="og:type" content="website" />
   <title>씨코드클럽 | C-Code Club</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#0b1020;
-      --bg2:#0f1730;
-      --card:rgba(255,255,255,0.06);
-      --card2:rgba(255,255,255,0.08);
-      --line:rgba(255,255,255,0.12);
-      --txt:rgba(255,255,255,0.92);
-      --muted:rgba(255,255,255,0.70);
-      --muted2:rgba(255,255,255,0.55);
-      --accent:#7aa7ff;
-      --accent2:#8af2d6;
-      --shadow: 0 18px 60px rgba(0,0,0,0.45);
-      --radius:18px;
-      --radius2:26px;
-      --max:1100px;
+    :root {
+      --bg: #06090f;
+      --surface: #0c1220;
+      --surface2: #101828;
+      --border: rgba(255,255,255,0.07);
+      --border2: rgba(255,255,255,0.12);
+      --txt: #f0f4ff;
+      --muted: rgba(200,215,240,0.65);
+      --muted2: rgba(180,200,230,0.40);
+      --teal: #3ee8cc;
+      --teal2: rgba(62,232,204,0.12);
+      --blue: #6ab4ff;
+      --gold: #c8a96e;
+      --max: 1140px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      color:var(--txt);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", Segoe UI, Roboto, Helvetica, Arial;
-      background:
-        radial-gradient(1000px 600px at 18% 12%, rgba(122,167,255,0.22), transparent 60%),
-        radial-gradient(900px 500px at 78% 18%, rgba(138,242,214,0.18), transparent 55%),
-        radial-gradient(700px 500px at 60% 88%, rgba(122,167,255,0.16), transparent 60%),
-        linear-gradient(180deg, var(--bg), var(--bg2));
-    }
-    a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 20px 72px}
-  header{
-  position: fixed;
-  top: 10px;           /* px 꼭 붙이기 */
-  left: 0;
-  right: 0;
-  z-index: 9999;
-  background: transparent;
 
-  display: flex;
-  justify-content: center;
-}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { scroll-behavior: smooth; }
 
-/* 카드형 네비 바 */
-.nav{
-  width: 92%;
-  max-width: var(--max);
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-
-  padding: 8px 16px;          /* ✅ 낮은 높이 */
-  border-radius: 18px;
-
-  background: rgba(10,20,40,0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 18px 50px rgba(0,0,0,0.35);
-}
-
-/* 브랜드 영역 */
-.brand{
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: inherit;
-}
-
-/* ✅ 로고: 크게(2배 느낌) + 헤더 높이 유지 위해 위로 겹치기 */
-.brand-logo{
-  width: 100px;            /* (현재 78의 거의 2배 느낌) */
-  height: 100px;
-  object-fit: contain;
-  border-radius: 18px;
-  box-shadow: 0 14px 32px rgba(0,0,0,0.28);
-
-}
-
-/* 로고 hover 제거 */
-.brand-logo:hover{ transform:none; }
-
-.brand-title{
-  font-size: 15px;
-  font-weight: 900;
-  letter-spacing: -0.2px;
-  line-height: 1.1;
-  white-space: nowrap;
-}
-
-/* 메뉴 링크 (기존 스타일 유지하면서 높이만 낮게) */
-.navlinks{
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-.navlinks a{
-  font-size: 13px;
-  padding: 6px 10px;
-  border-radius: 12px;
-  font-weight: 700;
-}
-
-.navlinks a:hover{
-  background: rgba(255,255,255,0.06);
-  color: var(--txt);
-}
-
-/* ✅ 헤더가 고정이므로 본문이 가려지지 않게 최소 여백만 */
-body{
-  padding-top: 90px;
-}
-
-/* 모바일: 로고는 여전히 크게, 너무 튀면 약간만 줄이기 */
-@media (max-width: 640px){
-  .brand-logo{
-    width: 110px;
-    height: 110px;
-    margin-top: -34px;
-  }
-  body{ padding-top: 86px; }
-}
-
-    .hcard{
-      border:1px solid rgba(255,255,255,0.10);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border-radius: var(--radius2);
-      padding:26px;
-      box-shadow: var(--shadow);
-    }
-    .kicker{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 12px;
-      border:1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      color:var(--muted);
-      font-weight:700;
-      font-size:13px;
-    }
-    .dot{
-      width:8px; height:8px; border-radius:999px;
-      background: var(--accent2);
-      box-shadow: 0 0 18px rgba(138,242,214,0.45);
-    }
-    h1{
-      margin:14px 0 10px;
-      font-size: 44px;
-      line-height:1.12;
-      letter-spacing:-0.6px;
-    }
-    @media (max-width: 520px){
-      h1{font-size: 34px}
-    }
-    .sub{
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-      margin: 0 0 18px;
-    }
-    .cta{
-      display:flex; gap:12px; flex-wrap:wrap;
-      margin-top: 16px;
-    }
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center;
-      gap:10px;
-      padding:12px 14px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.06);
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
       color: var(--txt);
-      font-weight:800;
-      transition: transform .12s ease, background .2s ease, border-color .2s ease;
-      cursor:pointer;
-      user-select:none;
-    }
-    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.20)}
-    .btn.primary{
-      border:0;
-      background: linear-gradient(135deg, rgba(122,167,255,0.95), rgba(138,242,214,0.75));
-      color:#071022;
-    }
-    .btn.primary:hover{transform: translateY(-1px) scale(1.01)}
-    .mini{
-      font-size:13px;
-      color: var(--muted2);
-      margin-top:12px;
+      overflow-x: hidden;
     }
 
-    .side{
-      display:flex; flex-direction:column; gap:14px;
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
     }
-    .card{
-      border-radius: var(--radius);
+
+    /* ─── AMBIENT GLOWS ─── */
+    .glow-field {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .glow-field span {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0;
+      animation: floatGlow 20s ease-in-out infinite;
+    }
+    .glow-field span:nth-child(1) {
+      width: 600px; height: 600px;
+      background: rgba(62,232,204,0.07);
+      top: -150px; left: -100px;
+      animation-delay: 0s;
+    }
+    .glow-field span:nth-child(2) {
+      width: 500px; height: 500px;
+      background: rgba(106,180,255,0.08);
+      top: 30%; right: -100px;
+      animation-delay: -7s;
+    }
+    .glow-field span:nth-child(3) {
+      width: 700px; height: 400px;
+      background: rgba(200,169,110,0.04);
+      bottom: 10%; left: 20%;
+      animation-delay: -13s;
+    }
+    @keyframes floatGlow {
+      0%,100%{ opacity:0.6; transform:translate(0,0) scale(1); }
+      33%{ opacity:1; transform:translate(30px,-40px) scale(1.06); }
+      66%{ opacity:0.7; transform:translate(-20px,20px) scale(0.95); }
+    }
+
+    /* ─── NAV ─── */
+    header {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      width: 92%;
+      max-width: var(--max);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background: rgba(6,9,15,0.75);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04) inset;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      object-fit: contain;
       background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-      padding:18px;
     }
-    .card h3{
-      margin:0 0 8px;
+
+    .brand-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--txt);
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .navlinks a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: 100px;
+      transition: color 0.2s, background 0.2s;
+      text-decoration: none;
+    }
+
+    .navlinks a:hover {
+      color: var(--txt);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--bg) !important;
+      background: var(--teal) !important;
+      padding: 7px 16px !important;
+      border-radius: 100px !important;
+      transition: opacity 0.2s !important;
+    }
+    .nav-cta:hover { opacity: 0.85 !important; background: var(--teal) !important; }
+
+    /* ─── MAIN WRAP ─── */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 140px;
+      padding-bottom: 80px;
+      gap: 0;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: var(--teal2);
+      border: 1px solid rgba(62,232,204,0.25);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.1s forwards;
+    }
+
+    .hero-pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%{ opacity:0.5; transform:scale(0.7); }
+    }
+
+    .hero h1 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(48px, 7vw, 88px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 10px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(18px, 3vw, 28px);
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 28px;
+      letter-spacing: 0.2px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.3s forwards;
+    }
+
+    .hero-desc {
       font-size: 16px;
-      letter-spacing:-0.2px;
-    }
-    .card p{
-      margin:0;
       color: var(--muted);
-      line-height:1.7;
-      font-size:14px;
+      line-height: 1.85;
+      max-width: 580px;
+      margin: 0 auto 40px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
     }
-    .grid{
-      margin-top: 26px;
-      display:grid;
+
+    .hero-desc strong { color: var(--txt); font-weight: 700; }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: linear-gradient(135deg, var(--teal), var(--blue) 130%);
+      color: #04080f;
+      font-weight: 800;
+      font-size: 14px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 40px rgba(62,232,204,0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 60px rgba(62,232,204,0.35);
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 24px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+      border-radius: 100px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.07);
+      color: var(--txt);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    .hero-footnote {
+      margin-top: 28px;
+      font-size: 12px;
+      color: var(--muted2);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+
+    /* ─── HERO STATS BAR ─── */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin-top: 70px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.7s forwards;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.02);
+      overflow: hidden;
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 20px 16px;
+      text-align: center;
+      position: relative;
+    }
+
+    .stat-item + .stat-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .stat-num {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--txt);
+      display: block;
+    }
+    .stat-num span { color: var(--teal); }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--muted2);
+      margin-top: 4px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section {
+      padding: 100px 0;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 16px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--teal);
+    }
+
+    .section-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 520px;
+    }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border2), transparent);
+    }
+
+    /* ─── ABOUT / FEATURES ─── */
+    .features-grid {
+      display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap:14px;
+      gap: 16px;
+      margin-top: 52px;
     }
-    @media (max-width: 900px){
-      .grid{grid-template-columns: 1fr}
+
+    @media (max-width: 860px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feature-card {
+      padding: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
     }
-    .feature{
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
-      border:1px solid rgba(255,255,255,0.10);
-      padding:18px;
-      min-height: 132px;
+    .feature-card:hover {
+      border-color: rgba(62,232,204,0.25);
+      transform: translateY(-4px);
     }
-    .tag{
-      display:inline-flex;
-      padding:6px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,0.12);
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(62,232,204,0.4), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-num {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .feature-card h4 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .feature-card p {
+      font-size: 14px;
       color: var(--muted);
-      font-weight:800;
-      font-size:12px;
+      line-height: 1.8;
+    }
+
+    /* ─── MEMBERS ─── */
+    #members {
+      padding: 100px 0;
+    }
+
+    .members-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 40px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 700px) {
+      .members-intro { grid-template-columns: 1fr; }
+    }
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 860px) { .members-grid { grid-template-columns: 1fr; } }
+
+    .member-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: border-color 0.25s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .member-card:hover {
+      border-color: rgba(62,232,204,0.3);
+      transform: translateY(-6px);
+    }
+
+    .member-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to top, rgba(62,232,204,0.04), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .member-card:hover::after { opacity: 1; }
+
+    .member-avatar-wrap {
+      width: 110px;
+      height: 110px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(62,232,204,0.2);
+      padding: 3px;
+      background: radial-gradient(circle, rgba(62,232,204,0.08), transparent);
+      transition: border-color 0.3s;
+    }
+    .member-card:hover .member-avatar-wrap {
+      border-color: rgba(62,232,204,0.5);
+    }
+
+    .member-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: contain;
+      background: #fff;
+      display: block;
+    }
+
+    .member-name {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .member-role {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--teal);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .member-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.03);
+      border-left: 2px solid rgba(62,232,204,0.35);
+      border-radius: 0 8px 8px 0;
+      text-align: left;
+    }
+
+    .member-desc {
+      font-size: 13px;
+      color: var(--muted2);
+      line-height: 1.8;
+    }
+
+    /* ─── CONTENT SECTION ─── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 52px;
+    }
+
+    @media (max-width: 860px) { .content-grid { grid-template-columns: 1fr; } }
+
+    .content-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .content-card:hover {
+      border-color: rgba(106,180,255,0.3);
+      transform: translateY(-4px);
+    }
+
+    .content-tag {
+      display: inline-flex;
+      padding: 5px 12px;
+      background: rgba(106,180,255,0.1);
+      border: 1px solid rgba(106,180,255,0.2);
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .content-card h4 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 18px;
+      font-weight: 700;
       margin-bottom: 10px;
     }
-    .feature h4{margin:0 0 6px; font-size:16px}
-    .feature .desc{margin:0; color: var(--muted); line-height:1.7; font-size:14px}
 
-    section{
-      margin-top: 22px;
-    }
-    .section-title{
-      font-size: 18px;
-      margin: 26px 0 10px;
-      letter-spacing:-0.2px;
-    }
-    .hr{
-      height:1px;
-      background: rgba(255,255,255,0.10);
-      margin: 18px 0 0;
-    }
-
-    footer{
-      margin-top: 38px;
-      color: var(--muted2);
-      font-size: 13px;
-      line-height: 1.7;
-      border-top:1px solid rgba(255,255,255,0.10);
-      padding-top: 18px;
-    }
-    .footrow{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    }
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,0.10);
-      background: rgba(255,255,255,0.04);
+    .content-card p {
+      font-size: 14px;
       color: var(--muted);
-      font-weight:700;
+      line-height: 1.8;
     }
-    .hidden{display:none}
-/* ===== Members Section (C-Code Club) ===== */
-  .members-wrap{ margin-top:60px; }
-  .members-head{ text-align:center; margin-bottom:32px; }
-  .members-head h2{ font-size:28px; margin:0; }
-  .members-head p{ color:#bbb; max-width:680px; margin:10px auto 0; line-height:1.6; }
 
-  .members-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-    gap:22px;
-  }
-
-  .member-card{
-    background: linear-gradient(180deg, rgba(20,27,51,0.95), rgba(20,27,51,0.78));
-    border:1px solid rgba(255,255,255,0.10);
-    border-radius:20px;
-    padding:22px;
-    text-align:center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-    will-change: transform;
-  }
-
-  /* Option 1: Professional Lift Hover */
-  .member-card:hover{
-    transform: translateY(-6px);
-    box-shadow: 0 18px 55px rgba(0,0,0,0.38);
-    border-color: rgba(78,216,199,0.55);
-  }
-
- .avatar{
-  width:180px;          /* 기존 120 → 180 */
-  height:180px;         /* 기존 120 → 180 */
-  border-radius:50%;
-  margin: 0 auto 18px;
-  overflow:hidden;
-  border:3px solid rgba(78,216,199,0.35);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-  background: #ffffff;  /* 배경 흰색 (캐릭터가 더 또렷) */
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.avatar img{
-  width:90%;            /* 살짝 여백 주기 */
-  height:90%;
-  object-fit:contain;   /* cover → contain 으로 변경 */
-}
-
-  .member-name{ margin:10px 0 6px; font-size:18px; }
-  .member-quote{ color:#4ED8C7; font-weight:800; margin:8px 0 8px; }
-  .member-role{ color:#bbb; font-size:14px; margin:0; }
-  .member-desc{ margin-top:10px; font-size:14px; color:#ddd; line-height:1.6; }
-
-  /* Touch devices: prevent weird hover behavior */
-  @media (hover: none) {
-    .member-card:hover{
-      transform:none;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      border-color: rgba(255,255,255,0.10);
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 100px 0;
     }
-  }
-    
+
+    .contact-box {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(62,232,204,0.03) 100%);
+      border: 1px solid var(--border2);
+      border-radius: 28px;
+      padding: 52px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @media (max-width: 700px) {
+      .contact-box { grid-template-columns: 1fr; padding: 32px; }
+    }
+
+    .contact-box::before {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(62,232,204,0.08), transparent 70%);
+    }
+
+    .contact-box h3 {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .contact-box p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 460px;
+    }
+
+    .contact-pills {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .cpill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border2);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .cpill:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(62,232,204,0.3);
+      color: var(--txt);
+    }
+
+    .contact-copy-btn {
+      flex-shrink: 0;
+      padding: 16px 32px;
+      background: rgba(62,232,204,0.1);
+      border: 1px solid rgba(62,232,204,0.25);
+      border-radius: 16px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--teal);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      white-space: nowrap;
+    }
+    .contact-copy-btn:hover {
+      background: rgba(62,232,204,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-brand {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: var(--muted2);
+      max-width: 440px;
+      line-height: 1.7;
+      margin-top: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 8px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted2);
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .footer-links a:hover {
+      color: var(--txt);
+      border-color: var(--border2);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── MOBILE NAV ─── */
+    @media (max-width: 600px) {
+      .navlinks { display: none; }
+      .nav-cta { display: none !important; }
+    }
   </style>
 </head>
 
 <body>
+
+  <div class="glow-field" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- NAV -->
   <header>
-  <div class="nav">
-    <a href="#" class="brand" aria-label="씨코드클럽 홈">
-      <img src="assets/ccclogo_cr.png" alt="씨코드클럽 로고" class="brand-logo">
-      <div class="brand-title">씨코드클럽</div>
-    </a>
-
-    <nav class="navlinks" aria-label="메뉴">
-      <a href="#about">소개</a>
-      <a href="#members">멤버</a>
-      <a href="#content">콘텐츠</a>
-      <a href="#contact">문의</a>
+    <nav>
+      <a href="#" class="brand">
+        <img src="assets/ccclogo_cr.png" alt="씨코드클럽 로고" class="brand-logo">
+        <span class="brand-title">씨코드클럽</span>
+      </a>
+      <div class="navlinks">
+        <a href="#about">소개</a>
+        <a href="#members">멤버</a>
+        <a href="#content">콘텐츠</a>
+        <a href="#contact" class="nav-cta">문의하기</a>
+      </div>
     </nav>
-  </div>
-</header>
-  
-  <main class="wrap">
-    <div class="hero">
-      <div class="hcard">
-        <span class="kicker"><span class="dot"></span>암을 겪은 세 명의 신경외과 의사</span>
-        <h1>씨코드클럽<br/>기록과 회복의 커뮤니티</h1>
-        <p class="sub">
-          “진단코드 C로 시작하는 질환”을 직접 경험한 <b>세 명의 신경외과 의사</b>가,
-          환자·보호자·의료진이 서로 이해할 수 있도록 <b>현실적인 정보</b>와 <b>진짜 감정</b>을 함께 기록합니다.
-        </p>
+  </header>
 
-        <div class="cta">
-          <!-- 유튜브 채널 오픈 후 아래 href만 교체 -->
-          <a class="btn primary" href="https://www.youtube.com" target="_blank" rel="noopener">
-            ▶ 유튜브 채널(예정)
-          </a>
-          <button class="btn" id="copyEmailBtn" type="button">
-            ✉ 문의 이메일 복사
-          </button>
-          <a class="btn" href="#about">더 알아보기</a>
-        </div>
-
-        <div class="mini">
-          ※ 의료 정보는 일반적 정보 제공 목적이며, 개인 진료를 대체하지 않습니다.
-        </div>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-tag">
+        <span class="hero-pulse"></span>
+        C-Code Club · 씨코드클럽
       </div>
 
-      <div class="side">
-        <div class="card">
-          <h3>우리가 다루는 것</h3>
-          <p>치료 과정의 의사결정, 검사/영상 이해, 수술·항암·방사선의 현실, 후유증과 회복, 일상 복귀.</p>
+      <h1>의사가<br/><em>환자가 되었을 때</em></h1>
+      <p class="hero-sub-title">기록과 회복의 커뮤니티</p>
+
+      <p class="hero-desc">
+        진단코드 <strong>C</strong>로 시작하는 질환을 직접 경험한<br/>
+        <strong>세 명의 신경외과 의사</strong>가 현실적인 정보와<br/>
+        진짜 감정을 함께 기록합니다.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn-primary" href="https://www.youtube.com" target="_blank" rel="noopener">
+          ▶ 유튜브 채널 (예정)
+        </a>
+        <button class="btn-ghost" id="copyEmailBtn">✉ 이메일 복사</button>
+        <a class="btn-ghost" href="#about">더 알아보기 ↓</a>
+      </div>
+
+      <p class="hero-footnote">
+        ※ 의료 정보는 일반적 정보 제공 목적이며, 개인 진료를 대체하지 않습니다.
+      </p>
+
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-num"><span>3</span>명</span>
+          <div class="stat-label">신경외과 전문의</div>
         </div>
-        <div class="card">
-          <h3>톤 & 원칙</h3>
-          <p>불필요한 공포를 조장하지 않고, 근거 기반으로 말하되, “경험자의 목소리”를 숨기지 않습니다.</p>
+        <div class="stat-item">
+          <span class="stat-num"><span>직접</span> 경험</span>
+          <div class="stat-label">수술 · 항암 · 방사선</div>
         </div>
-        <div class="card">
-          <h3>채널 운영(예정)</h3>
-          <p>짧고 명확한 영상(5–8분) + 라이브 Q&A + 자료실(체크리스트/가이드 PDF).</p>
+        <div class="stat-item">
+          <span class="stat-num"><span>두</span> 시선</span>
+          <div class="stat-label">의사이자 환자</div>
         </div>
       </div>
-    </div>
+    </section>
 
+    <div class="divider"></div>
+
+    <!-- ABOUT -->
     <section id="about">
-      <div class="section-title">소개</div>
-      <div class="grid">
-        <div class="feature">
-          <div class="tag">01</div>
+      <div class="reveal">
+        <div class="section-eyebrow">About</div>
+        <h2 class="section-title">왜 씨코드클럽인가</h2>
+        <p class="section-desc">
+          "설명하는 사람"과 "설명을 듣는 사람"—<br/>
+          두 자리를 모두 겪은 이들이 전하는 이야기.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card reveal">
+          <span class="feature-num">01</span>
           <h4>의사이자 환자였던 관점</h4>
-          <p class="desc">“설명하는 사람”과 “설명을 듣는 사람”을 모두 겪은 경험으로, 필요한 정보를 핵심만 남깁니다.</p>
+          <p>진료실 안과 밖의 경험을 모두 갖춘 시선으로, 필요한 정보를 핵심만 남겨 전달합니다.</p>
         </div>
-        <div class="feature">
-          <div class="tag">02</div>
+        <div class="feature-card reveal">
+          <span class="feature-num">02</span>
           <h4>현실적인 치료 여정 안내</h4>
-          <p class="desc">병원 선택, 치료 일정, 부작용/후유증, 복귀 전략까지 ‘현실적으로 준비’하도록 돕습니다.</p>
+          <p>병원 선택, 치료 일정, 부작용·후유증, 복귀 전략까지 현실적으로 준비할 수 있도록 돕습니다.</p>
         </div>
-        <div class="feature">
-          <div class="tag">03</div>
+        <div class="feature-card reveal">
+          <span class="feature-num">03</span>
           <h4>기록이 만드는 회복</h4>
-          <p class="desc">정보와 감정을 함께 기록하면, 혼란이 줄고 회복의 방향이 선명해집니다.</p>
+          <p>정보와 감정을 함께 기록하면 혼란이 줄고, 회복의 방향이 선명해집니다.</p>
         </div>
       </div>
-      <div class="hr"></div>
     </section>
 
-<section id="members" class="members-wrap">
-  <div class="members-head">
-    <h2>씨코드클럽 멤버</h2>
-    <p>
-      의사이자 환자였던 세 명의 신경외과 의사. 전문성과 경험을 바탕으로
-      진솔하고 유익한 정보를 전합니다.
-    </p>
-  </div>
+    <div class="divider"></div>
 
-  <div class="members-grid">
-    <!-- Member 1 -->
-    <div class="member-card">
-      <div class="avatar">
-        <img src="assets/youngil1.png" alt="김영일 프로필">
+    <!-- MEMBERS -->
+    <section id="members">
+      <div class="members-intro">
+        <div class="reveal">
+          <div class="section-eyebrow">Members</div>
+          <h2 class="section-title">씨코드클럽<br/>멤버 소개</h2>
+        </div>
+        <div class="reveal">
+          <p class="section-desc">
+            의사이자 환자였던 세 명의 신경외과 의사.<br/>
+            전문성과 경험을 바탕으로 진솔하고 유익한 정보를 전합니다.
+          </p>
+        </div>
       </div>
-      <h3 class="member-name">김영일</h3>
-      <p class="member-quote">“수술도 받아봤고, 항암도 해봤습니다.”</p>
-      <p class="member-role">신경외과 전문의</p>
-      <p class="member-desc">
-        환자의 불안을 줄이는 ‘이해되는 설명’을 가장 중요하게 생각합니다.
-      </p>
-    </div>
 
-    <!-- Member 2 -->
-    <div class="member-card">
-      <div class="avatar">
-        <img src="assets/kyungsu1.png" alt="성경수 프로필">
-      </div>
-      <h3 class="member-name">성경수</h3>
-      <p class="member-quote">“교과서와 현실의 차이를 압니다.”</p>
-      <p class="member-role">신경외과 전문의</p>
-      <p class="member-desc">
-        검사·치료 선택의 무게를 함께 정리하고, 현실적인 기준을 제시합니다.
-      </p>
-    </div>
+      <div class="members-grid">
+        <div class="member-card reveal">
+          <div class="member-avatar-wrap">
+            <img src="assets/youngil1.png" alt="김영일 프로필">
+          </div>
+          <div class="member-role">신경외과 전문의</div>
+          <h3 class="member-name">김영일</h3>
+          <div class="member-quote">"수술도 받아봤고, 항암도 해봤습니다."</div>
+          <p class="member-desc">환자의 불안을 줄이는 '이해되는 설명'을 가장 중요하게 생각합니다.</p>
+        </div>
 
-    <!-- Member 3 -->
-    <div class="member-card">
-      <div class="avatar">
-        <img src="assets/kyunghwan1.png" alt="김경환 프로필">
+        <div class="member-card reveal">
+          <div class="member-avatar-wrap">
+            <img src="assets/kyungsu1.png" alt="성경수 프로필">
+          </div>
+          <div class="member-role">신경외과 전문의</div>
+          <h3 class="member-name">성경수</h3>
+          <div class="member-quote">"교과서와 현실의 차이를 압니다."</div>
+          <p class="member-desc">검사·치료 선택의 무게를 함께 정리하고, 현실적인 기준을 제시합니다.</p>
+        </div>
+
+        <div class="member-card reveal">
+          <div class="member-avatar-wrap">
+            <img src="assets/kyunghwan1.png" alt="김경환 프로필">
+          </div>
+          <div class="member-role">신경외과 전문의</div>
+          <h3 class="member-name">김경환</h3>
+          <div class="member-quote">"아프기 전과 후의 의사는 다릅니다."</div>
+          <p class="member-desc">전문성과 공감을 함께 담아, 부담 없이 볼 수 있는 의학 이야기를 만듭니다.</p>
+        </div>
       </div>
-      <h3 class="member-name">김경환</h3>
-      <p class="member-quote">“아프기 전과 후의 의사는 다릅니다.”</p>
-      <p class="member-role">신경외과 전문의</p>
-      <p class="member-desc">
-        전문성과 공감을 함께 담아, 부담 없이 볼 수 있는 의학 이야기를 만듭니다.
-      </p>
-    </div>
-  </div>
-</section>
-    
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CONTENT -->
     <section id="content">
-      <div class="section-title">콘텐츠(예정)</div>
-      <div class="grid">
-        <div class="feature">
-          <div class="tag">영상</div>
+      <div class="reveal">
+        <div class="section-eyebrow">Content</div>
+        <h2 class="section-title">준비 중인 콘텐츠</h2>
+        <p class="section-desc">
+          짧고 명확하게, 경험자의 목소리로 전달합니다.
+        </p>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-card reveal">
+          <span class="content-tag">영상</span>
           <h4>5–8분 핵심 요약</h4>
-          <p class="desc">검사/치료/회복을 “한 장”으로 이해할 수 있는 요약 콘텐츠.</p>
+          <p>검사·치료·회복을 한 편으로 이해할 수 있는 요약 콘텐츠를 제작합니다.</p>
         </div>
-        <div class="feature">
-          <div class="tag">자료실</div>
+        <div class="content-card reveal">
+          <span class="content-tag">자료실</span>
           <h4>체크리스트 & 가이드</h4>
-          <p class="desc">외래/입원/수술 전후 체크리스트, 보호자 가이드, 질문 리스트.</p>
+          <p>외래·입원·수술 전후 체크리스트, 보호자 가이드, 질문 리스트 PDF를 제공합니다.</p>
         </div>
-        <div class="feature">
-          <div class="tag">Q&A</div>
+        <div class="content-card reveal">
+          <span class="content-tag">Q&A</span>
           <h4>라이브 & 댓글 답변</h4>
-          <p class="desc">정답이 하나가 아닌 질문을, 기준과 맥락으로 함께 정리합니다.</p>
+          <p>정답이 하나가 아닌 질문을, 기준과 맥락으로 함께 정리합니다.</p>
         </div>
       </div>
-      <div class="hr"></div>
     </section>
 
+    <div class="divider"></div>
+
+    <!-- CONTACT -->
     <section id="contact">
-      <div class="section-title">문의</div>
-      <div class="card">
-        <h3>협업 / 출연 / 강의 / 인터뷰</h3>
-        <p style="margin-top:6px; color:var(--muted); line-height:1.7;">
-          아래 이메일로 연락 주세요. (현재는 준비 단계라 답변이 지연될 수 있습니다.)
-        </p>
-
-        <!-- 이메일/소셜은 여기만 바꾸면 됨 -->
-        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-          <span class="pill" id="emailPill">contact@씨코드클럽.kr (예시)</span>
-          <a class="pill" href="https://www.youtube.com" target="_blank" rel="noopener">YouTube (예정)</a>
-          <a class="pill" href="#" onclick="alert('추후 오픈 예정입니다.'); return false;">Instagram (예정)</a>
+      <div class="contact-box reveal">
+        <div>
+          <div class="section-eyebrow">Contact</div>
+          <h3>협업 · 출연 · 강의 · 인터뷰</h3>
+          <p>
+            아래 이메일로 연락해 주세요.<br/>
+            현재는 준비 단계라 답변이 지연될 수 있습니다.
+          </p>
+          <div class="contact-pills">
+            <span class="cpill" id="emailPill">contact@씨코드클럽.kr</span>
+            <a class="cpill" href="https://www.youtube.com" target="_blank" rel="noopener">▶ YouTube (예정)</a>
+            <a class="cpill" href="#" onclick="alert('추후 오픈 예정입니다.'); return false;">📷 Instagram (예정)</a>
+          </div>
         </div>
-
-        <p style="margin-top:12px; color:var(--muted2); font-size:13px; line-height:1.7;">
-          * 도메인 메일을 실제로 쓰려면 “도메인 이메일(메일호스팅)” 설정이 필요합니다.
-          아직 이메일이 없다면, 우선 임시로 Gmail 주소를 넣어도 됩니다.
-        </p>
+        <button class="contact-copy-btn" id="copyEmailBtn2">
+          ✉ 이메일 복사
+        </button>
       </div>
     </section>
 
     <footer>
-      <div class="footrow">
-        <div>
-          <div style="font-weight:800; color:var(--muted);">© <span id="year"></span> 씨코드클럽</div>
-          <div>의학 정보는 개인 진료를 대체하지 않으며, 최종 판단은 담당 의료진과 상의하세요.</div>
-        </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="pill" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ 맨 위로</a>
-          <a class="pill" href="#about">소개</a>
-          <a class="pill" href="#contact">문의</a>
-        </div>
+      <div>
+        <div class="footer-brand">© <span id="year"></span> 씨코드클럽</div>
+        <p class="footer-note">
+          의학 정보는 개인 진료를 대체하지 않으며, 최종 판단은 담당 의료진과 상의하세요.
+        </p>
+      </div>
+      <div class="footer-links">
+        <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'}); return false;">↑ 맨 위로</a>
+        <a href="#about">소개</a>
+        <a href="#contact">문의</a>
       </div>
     </footer>
   </main>
 
   <script>
-    // 연도 자동
+    // 연도
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // 이메일 복사(예시 이메일이므로 나중에 실제 주소로 바꾸세요)
-    const emailText = "contact@씨코드클럽.kr"; // <- 여기를 실제 이메일로 변경
-    const copyBtn = document.getElementById('copyEmailBtn');
-    const emailPill = document.getElementById('emailPill');
+    // 이메일 복사
+    const emailText = "contact@씨코드클럽.kr";
 
-    // 화면에 표시되는 텍스트도 동일하게 유지
-    emailPill.textContent = emailText + " (예시)";
+    function copyEmail(btn) {
+      navigator.clipboard.writeText(emailText).then(() => {
+        btn.textContent = "✅ 복사 완료!";
+        setTimeout(() => btn.textContent = btn.id === 'copyEmailBtn2' ? '✉ 이메일 복사' : '✉ 이메일 복사', 1500);
+      }).catch(() => {
+        alert("복사에 실패했습니다: " + emailText);
+      });
+    }
 
-    copyBtn.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(emailText);
-        copyBtn.textContent = "✅ 복사 완료";
-        setTimeout(()=> copyBtn.textContent = "✉ 문의 이메일 복사", 1200);
-      } catch (e) {
-        alert("복사에 실패했습니다. 이메일을 직접 선택해 복사해 주세요: " + emailText);
-      }
-    });
+    document.getElementById('copyEmailBtn').addEventListener('click', function(){ copyEmail(this); });
+    document.getElementById('copyEmailBtn2').addEventListener('click', function(){ copyEmail(this); });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => io.observe(el));
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
