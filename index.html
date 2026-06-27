@@ -26,8 +26,29 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
+
     html { scroll-behavior: smooth; }
+
+    /* ─── SCROLL PROGRESS BAR ─── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--blue));
+      box-shadow: 0 0 12px rgba(62,232,204,0.6);
+      z-index: 2000;
+      transition: width 0.1s linear;
+    }
+
+    /* ─── CONSTELLATION CANVAS ─── */
+    #constellation {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
 
     body {
       font-family: 'Noto Sans KR', sans-serif;
@@ -155,6 +176,11 @@
       background: rgba(255,255,255,0.06);
     }
 
+    .navlinks a.active:not(.nav-cta) {
+      color: var(--teal);
+      background: var(--teal2);
+    }
+
     .nav-cta {
       font-size: 13px;
       font-weight: 700;
@@ -231,10 +257,15 @@
 
     .hero h1 em {
       font-style: normal;
-      background: linear-gradient(135deg, var(--teal), var(--blue));
+      background: linear-gradient(110deg, var(--teal) 0%, var(--blue) 35%, #b98cff 55%, var(--teal) 90%);
+      background-size: 250% auto;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: shimmer 6s linear infinite;
+    }
+    @keyframes shimmer {
+      to { background-position: 250% center; }
     }
 
     .hero-sub-title {
@@ -417,6 +448,29 @@
       background: linear-gradient(90deg, transparent, var(--border2), transparent);
     }
 
+    /* ─── MOUSE SPOTLIGHT (cards) ─── */
+    .feature-card, .member-card, .content-card {
+      --mx: 50%;
+      --my: 50%;
+    }
+    .feature-card::after,
+    .content-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(360px circle at var(--mx) var(--my), rgba(62,232,204,0.10), transparent 45%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .feature-card:hover::after,
+    .content-card:hover::after { opacity: 1; }
+    .member-card {
+      background-image: radial-gradient(320px circle at var(--mx) var(--my), rgba(62,232,204,0.08), transparent 50%);
+      background-repeat: no-repeat;
+    }
+
     /* ─── ABOUT / FEATURES ─── */
     .features-grid {
       display: grid;
@@ -502,7 +556,7 @@
     @media (max-width: 860px) { .members-grid { grid-template-columns: 1fr; } }
 
     .member-card {
-      background: var(--surface);
+      background-color: var(--surface);
       border: 1px solid var(--border);
       border-radius: 24px;
       padding: 32px 24px;
@@ -796,6 +850,9 @@
 
 <body>
 
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <canvas id="constellation" aria-hidden="true"></canvas>
+
   <div class="glow-field" aria-hidden="true">
     <span></span><span></span><span></span>
   </div>
@@ -847,7 +904,7 @@
 
       <div class="stats-bar">
         <div class="stat-item">
-          <span class="stat-num"><span>3</span>명</span>
+          <span class="stat-num"><span class="count" data-count="3">0</span>명</span>
           <div class="stat-label">신경외과 전문의</div>
         </div>
         <div class="stat-item">
@@ -1043,6 +1100,114 @@
       });
     }, { threshold: 0.08 });
     reveals.forEach(el => io.observe(el));
+
+    /* ─── Scroll progress bar ─── */
+    const progress = document.getElementById('scrollProgress');
+    function updateProgress() {
+      const h = document.documentElement;
+      const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+      progress.style.width = (scrolled * 100) + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    /* ─── Stat count-up ─── */
+    const counters = document.querySelectorAll('.count');
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.count;
+        const start = performance.now(), dur = 1100;
+        function tick(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(eased * target);
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterIO.unobserve(el);
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(el => counterIO.observe(el));
+
+    /* ─── Card mouse spotlight ─── */
+    document.querySelectorAll('.feature-card, .member-card, .content-card').forEach(card => {
+      card.addEventListener('pointermove', e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    /* ─── Nav active section highlight ─── */
+    const navLinks = document.querySelectorAll('.navlinks a:not(.nav-cta)');
+    const sections = ['about', 'members', 'content'].map(id => document.getElementById(id)).filter(Boolean);
+    const navIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => navIO.observe(s));
+
+    /* ─── Magnetic primary button ─── */
+    const magnet = document.querySelector('.btn-primary');
+    if (magnet && window.matchMedia('(pointer:fine)').matches) {
+      magnet.addEventListener('pointermove', e => {
+        const r = magnet.getBoundingClientRect();
+        const x = e.clientX - r.left - r.width / 2;
+        const y = e.clientY - r.top - r.height / 2;
+        magnet.style.transform = `translate(${x * 0.25}px, ${y * 0.35 - 2}px)`;
+      });
+      magnet.addEventListener('pointerleave', () => { magnet.style.transform = ''; });
+    }
+
+    /* ─── Constellation background ─── */
+    (function constellation() {
+      const canvas = document.getElementById('constellation');
+      const ctx = canvas.getContext('2d');
+      let w, h, dots, raf;
+      const COUNT = 70, LINK = 130;
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        dots = Array.from({ length: COUNT }, () => ({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+          r: Math.random() * 1.3 + 0.4
+        }));
+      }
+      function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (let i = 0; i < dots.length; i++) {
+          const d = dots[i];
+          d.x += d.vx; d.y += d.vy;
+          if (d.x < 0 || d.x > w) d.vx *= -1;
+          if (d.y < 0 || d.y > h) d.vy *= -1;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(62,232,204,0.5)';
+          ctx.fill();
+          for (let j = i + 1; j < dots.length; j++) {
+            const e = dots[j], dx = d.x - e.x, dy = d.y - e.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < LINK) {
+              ctx.beginPath();
+              ctx.moveTo(d.x, d.y); ctx.lineTo(e.x, e.y);
+              ctx.strokeStyle = `rgba(106,180,255,${0.12 * (1 - dist / LINK)})`;
+              ctx.lineWidth = 0.6;
+              ctx.stroke();
+            }
+          }
+        }
+        raf = requestAnimationFrame(draw);
+      }
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        resize(); draw();
+        window.addEventListener('resize', () => { cancelAnimationFrame(raf); resize(); draw(); });
+      }
+    })();
   </script>
 </body>
 </html>
